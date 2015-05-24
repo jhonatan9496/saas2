@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Estado fenologico</title>
+    <link href="/static/css/bootstrap.css" media="all" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/static/css/estilos.css">
+    <script type="text/javascript" src="/static/js/jquery-1.8.3.js"></script>
+ 
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+            
+
+
+<div class="wrapper">
+        <header id="header1">
+            <p class="titulo left">FenoTec</p>
+            <nav>
+                <ul class="">
+                    <li class="left">{{usuario.username}} {{usuario.lastname}} </li>
+                    <li class="left">
+                        <a href="/preguntar/">Usuarios</a>
+                    </li>
+                    <li class="left" >
+                        <a href="/listar_tipo/">Agregar tipo cultivo<div class="pip left">|</div> </a>
+                    </li>
+                    <li class="left"><a href="/salir/">Salir  <div class="pip left">|</div></a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8" align="center">
+
+
+           <h1>Agregar estado Fenológico</h1>
+
+            <form action="/agregar_estado/" method= "POST">
+            {% csrf_token %}
+
+         </section>
+
+        <section class="sectionin">
+        
+          <div class="input-group">
+              <span class="input-group-addon " id="basic-addon1">Tipo  Cultivo</span>
+              <input id="nombre" type="text" class="form-control uneditable-input" value="{{tipo}}" aria-describedby="basic-addon1" name="tipo" required >
+          </div>
+          </section>
+
+         <section class="sectionin">
+        
+          <div class="input-group">
+              <span class="input-group-addon" id="basic-addon1">Nombre estado fenológico</span>
+              <input id="nombre" type="text" class="form-control" placeholder="nombre de estado" aria-describedby="basic-addon1" name="nombre" required>
+          </div>
+          </section>
+        
+         </section>
+          <section class="sectionin">
+        
+          <div class="input-group">
+              <span class="input-group-addon" id="basic-addon1"> Dias duracion</span>
+              <input id="nombre" type="text" class="form-control" placeholder="nombre de estado" aria-describedby="basic-addon1" name="duracion" required>
+          </div>
+          </section>
+          <section class="sectionin">
+        
+          <div class="input-group">
+              <span class="input-group-addon" id="basic-addon1">Temperatura</span>
+              <input id="temperatura" type="text" class="form-control" placeholder="temperatura en grados centigrados" aria-describedby="basic-addon1" name="temperatura" required>
+          </div>
+          </section>
+          <section class="sectionin">
+        
+          <div class="input-group">
+              <span class="input-group-addon" id="basic-addon1">Humedad</span>
+              <input id="humedad"type="text" class="form-control" placeholder="porcentaje de humedad" aria-describedby="basic-addon1" name="humedad" required>
+          </div>
+          </section>
+
+          <section class="sectionin">
+          <button class="btn btn-success " name="submit" id="submit" tabindex="5" value="Registrar" type="submit"> Agregar </button>
+           </section>
+
+           <section class="sectionin">
+           </section>
+
+       </form>
+
+<h3>Estados fenologicos de  {{tipo}}</h3>
+       <table class="table tabla table-striped">
+                <tr>
+                    <td><strong>Nombre</strong></td>
+                    <td><strong>Duracion</strong></td>
+                </tr>
+                {% for  i in fenologicos %}
+                <tr>
+                    <td> <a href="/listar_fenologico/{{i.pk}}"> {{i.nombre_Estado_Fenologico}} </a></td>
+                    <td> {{i.duracion}} </td>
+                </tr>
+                {% endfor %}
+            </table>
+
+
+
+
+
+<!--  fin del contenido -->
+
+
+
+                <!-- FIN CONTENIDO -->
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <!-- fin margin -->
+
+
+        <div class="push"></div>
+    </div>
+    <footer>
+        <div class="footer">
+            <br>
+            <p>Copyright (c) FenoTec 2015</p>
+        </div>
+    </footer>
+
+
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+
+  </body>
+</html>
+
+
+
+
+
+
+
+
+

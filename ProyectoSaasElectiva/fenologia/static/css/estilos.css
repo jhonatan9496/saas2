@@ -1,0 +1,98 @@
+
+/*Footer*/
+     * {
+        margin: 0;
+    }
+    html, body {
+        height: 100%;
+    }
+    .wrapper {
+        min-height: 100%;
+        height: auto !important;
+       height: 100%;
+       margin: 0 auto -4em;
+   }
+   .footer {
+       height: 4em;
+       background-color: black;
+       color: white;
+       text-align: center;
+
+
+   }
+
+      .push {
+       height: 4em;
+
+   }
+
+   /*resto html*/
+
+    #formulario{
+        width: 40%;
+    }
+
+    #header1{
+        padding: 20px 100px;
+        background-color: black;
+        color: white;
+        height: 40px;
+    }
+
+    #header2{
+        padding: 20px 100px;
+        background-color: black;
+        color: white;
+        height: 80px;
+    }
+
+    ul{
+        list-style: none;
+
+    }
+
+    a:link {
+    text-decoration: none;
+    color: white;
+    }
+
+    a:visited {
+    text-decoration: none;
+    color: white;
+    }
+
+    a,.list:link {
+    text-decoration: none;
+    color: black;
+    }
+
+    a,.list:visited {
+    text-decoration: none;
+    color: black;
+    }
+
+    .left{ 
+        float: left;
+        /*width: 100px;*/
+        margin: 0 5px;
+    }
+
+    .titulo{
+        font-size: 30px;
+        width: 65%;
+    }
+
+    .nav{
+        font-size: 15px;
+    }
+
+    .pip{
+        margin: 0 15px;
+    }
+
+    .tabla{
+      width: 80%;
+      text-align: center;
+    }
+
+     

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Detalle cultivo</title>    
+    <link href="/static/css/bootstrap.css" media="all" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/static/css/estilos.css">
+    <script type="text/javascript" src="/static/js/jquery-1.8.3.js"></script>
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+ <body alink="white" vlink= "white">
+    <div class="wrapper">
+        <header id="header1">
+            <p class="titulo left">FenoTec</p>
+            <nav>
+                <ul class="">
+                    <li class="left">{{usuario.username}} {{usuario.lastname}} </li>
+                    <li class="left">
+                        <a href="/perfil_cultivador">Cultivos  </a>
+                    </li>
+                    <li class="left" >
+                        <a href="/formulario_cultivo">Agregar cultivo <div class="pip left">|</div> </a>
+                    </li>
+                    <li class="left"><a href="/salir/">Salir  <div class="pip left">|</div></a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8" align="center">
+
+            <!-- Contenido -->
+
+            <br>
+            <h1>Detalle Cultivo {{cultivo.nombre_cultivo}}</h1>
+            
+            <br>
+            <hr>
+         
+
+                
+
+
+               <!-- graficas -->
+
+              <section class="sectionx">
+                <div class="panel panel-default"><h3>Temperatura</h3>
+                  <div class="panel-body">
+                    <div id="line_top_x" class="grafica"></div>
+                  </div>
+                </div>
+               </section>
+                
+                <br>
+                <hr>
+                <br>
+
+               <section class="sectionx">
+                  <div class="panel panel-default"><h3>Humedad</h3>
+                    <div class="panel-body">
+        
+                      <div id="line_top_y" class="grafica"></div>
+                    </div>
+                  </div> 
+                </section>
+
+                <br>
+                <hr>
+                <br>
+                <div class="panel panel-default" >
+              <div class="panel-heading">
+                <h3 class="panel-title">Cargar Datos</h3>
+              </div>
+              <div class="panel-body">
+                Seleccione el archivo que contiene los datos tomados por la red de sensores.
+                <br>
+                <br>
+                <form method="POST" action="/cargar_archivo/{{idcultivo}}/" enctype="multipart/form-data">{% csrf_token %}
+                    <input name="archivo"  type="file" >
+                    <br>
+                    <br>
+                    <div class="row text-center">
+                        <input type="submit" class="btn btn-success" value="Siguiente" required>
+                    </div>
+                </form>
+              </div>
+            </div>
+
+            <br> 
+            <hr>
+
+                <h2>Historial de registros</h2>
+
+                <table class="table tabla table-striped"  >
+                    <tr>
+                        <td><strong>Numero</strong></td>
+                        <td><strong>Temperatura</strong></td>
+                        <td><strong>Humedad</strong></td>
+
+
+                    </tr>
+                    {% for  i in registros %}
+                    <tr>
+                        <td>  {{i.pk}} </td>
+                        <td>  {{i.tempertatura}} </td>
+                        <td>  {{i.humedad}} </td>
+                        
+
+                    </tr>
+                    {% endfor %}
+                </table>
+
+ <!-- FIN CONTENIDO -->
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <!-- fin margin -->
+
+
+        <div class="push"></div>
+    </div>
+    <footer>
+        <div class="footer">
+            <br>
+            <p>Copyright (c) FenoTec 2015</p>
+        </div>
+    </footer>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/static/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="/static/js/fileinput.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/static/js/jsapi"></script>
+  
+
+ <script>
+  function handleFileSelect(evt) {
+    var files = evt.target.files; // FileList object
+
+    // files is a FileList of File objects. List some properties.
+    var output = [];
+    for (var i = 0, f; f = files[i]; i++) {
+      output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+                  f.size, ' bytes, last modified: ',
+                  f.lastModifiedDate.toLocaleDateString(), '</li>');
+    }
+    document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+  }
+
+  document.getElementById('files').addEventListener('change', handleFileSelect, false);
+</script>   
+<script>
+$("#file-3").fileinput({
+showCaption: false,
+browseClass: "btn btn-primary btn-lg",
+fileType: "any"
+});
+</script>
+
+<!-- Grafica temperatura
+    ================================================== -->
+<script type="text/javascript">
+    google.load('visualization', '1.1', {packages: ['line']});
+    google.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('number', 'Dia');
+      data.addColumn('number', 'T. Real');
+      data.addColumn('number', 'T. Ideal');
+     
+
+      data.addRows({{datat}});
+
+      var options = {
+        chart: {
+          title: 'Temperatura ideal del cultivo comparada con la temperatura real capturada por la red de sensores',
+          subtitle: ''
+        },
+        width: 900,
+        height: 500,
+        axes: {
+          x: {
+            0: {side: 'lower'}
+          }
+        }
+      };
+
+      var chart = new google.charts.Line(document.getElementById('line_top_x'));
+
+      chart.draw(data, options);
+    }
+  </script>
+
+
+<!-- Grafica humedad
+    ================================================== -->
+<script type="text/javascript">
+    google.load('visualization', '1.1', {packages: ['line']});
+    google.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('number', 'Dia');
+      data.addColumn('number', 'H. Real');
+      data.addColumn('number', 'H. Ideal');
+     
+
+      data.addRows({{ datah }});
+
+      var options = {
+        chart: {
+          title: 'Temperatura ideal del cultivo comparada con la temperatura real capturada por la red de sensores',
+          subtitle: ''
+        },
+        width: 900,
+        height: 500,
+        axes: {
+          x: {
+            0: {side: 'lower'}
+          }
+        }
+      };
+
+      var chart = new google.charts.Line(document.getElementById('line_top_y'));
+
+      chart.draw(data, options);
+    }
+  </script>
+
+
+  </body>
+  
+</html>
+
+
+
+
+
+
+
+
+
